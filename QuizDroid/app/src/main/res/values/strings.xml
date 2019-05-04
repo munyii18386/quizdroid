@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Quiz Droid</string>
+    <string name="text">this is just a text field that will render some text</string>
+    <string name="btn_begin">BEGIN</string>
+    <string name="btn_submit">SUBMIT</string>
+    <string name="btn_next">NEXT</string>
+    <string name="btn_finish">FINISH</string>
+    <string name="user_ans">Your Ans:</string>
+    <string name="correct_ans">Correct Ans:</string>
+    <string name="about_math">This Math quiz has 10 questions.
+        Passing score is 5 out of 10 questions.
+        Click the button below to Begin
+    </string>
+
 </resources>
