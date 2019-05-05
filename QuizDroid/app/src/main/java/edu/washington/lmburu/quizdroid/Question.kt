@@ -24,7 +24,7 @@ class Question: AppCompatActivity() {
         questionCount++
         val data = QuizClass()
         if(checkedAnswer.equals("")){
-            submit.isClickable = false
+            submit.visibility = View.INVISIBLE
         }
 
         question.text = data.getQuestion(subject, count)
@@ -40,6 +40,7 @@ class Question: AppCompatActivity() {
                 r_btn_c.id -> checkedAnswer = r_btn_c.text as String
                 r_btn_d.id -> checkedAnswer = r_btn_d.text as String
             }
+            submit.visibility = View.VISIBLE
         }
 
         submit.setOnClickListener{
