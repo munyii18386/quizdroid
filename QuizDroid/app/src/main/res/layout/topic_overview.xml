@@ -12,12 +12,11 @@
             android:id="@+id/heading"
             android:textAlignment="center"
             android:textSize="30sp"/>
-    <EditText
+    <TextView
+            android:text="@string/text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/topic_overview" android:layout_marginTop="30dp" android:text="@string/text"/>
+            android:layout_height="wrap_content" android:id="@+id/topic_overview" android:layout_marginTop="30dp"
+            android:textSize="24sp"/>
     <Button
             android:text="@string/btn_begin"
             android:layout_width="match_parent"
