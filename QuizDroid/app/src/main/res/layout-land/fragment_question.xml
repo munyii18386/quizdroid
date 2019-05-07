@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".QuestionFragment">
+
+    <TextView
+            android:text="@string/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/question"
+            android:textSize="24sp"/>
+
+    <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="248dp"
+            android:id="@+id/btn_ans"
+            android:padding="15dp"
+            android:layout_marginTop="30dp">
+        <RadioButton
+                android:text="@string/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/r_btn_a"
+                android:layout_weight="1"/>
+        <RadioButton
+                android:text="@string/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/r_btn_b"
+                android:layout_weight="1"/>
+        <RadioButton
+                android:text="@string/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/r_btn_c"
+                android:layout_weight="1"/>
+        <RadioButton
+                android:text="@string/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/r_btn_d"
+                android:layout_weight="1"/>
+    </RadioGroup>
+
+    <Button
+            android:text="@string/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/submit"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_marginTop="250dp"/>
+
+</FrameLayout>

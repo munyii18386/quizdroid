@@ -8,7 +8,6 @@ import android.view.View
 import edu.washington.lmburu.quizdroid.R.*
 
 
-private val TAG= "MultiUseActivity"
 class MultiUseActivity : AppCompatActivity(), TopicOverviewFragment.OnBeginSelected, QuestionFragment.OnSubmitSelectedListener, AnswerFragment.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +21,7 @@ class MultiUseActivity : AppCompatActivity(), TopicOverviewFragment.OnBeginSelec
         val topicOverviewFragment = TopicOverviewFragment.newInstance(subject, summary)
         val topicFt = supportFragmentManager.beginTransaction()
         topicFt.replace(id.container,topicOverviewFragment )
+        topicFt.addToBackStack(null)
         topicFt.commit()
     }
 
@@ -29,6 +29,7 @@ class MultiUseActivity : AppCompatActivity(), TopicOverviewFragment.OnBeginSelec
         val questionFragment = QuestionFragment.newInstance(subject, index, scoreCount)
         val questionFt = supportFragmentManager.beginTransaction()
         questionFt.replace(id.container, questionFragment)
+        questionFt.addToBackStack(null)
         questionFt.commit()
     }
 
@@ -36,6 +37,7 @@ class MultiUseActivity : AppCompatActivity(), TopicOverviewFragment.OnBeginSelec
         val answerFragment = AnswerFragment.newInstance(subject, index, checkedAnswer, scoreCount)
         val ansFt = supportFragmentManager.beginTransaction()
         ansFt.replace(id.container, answerFragment)
+        ansFt.addToBackStack(null)
         ansFt.commit()
     }
 
