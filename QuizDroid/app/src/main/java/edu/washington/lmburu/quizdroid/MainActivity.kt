@@ -14,8 +14,8 @@ class MainActivity : AppCompatActivity() {
         val adapter = QuizRecyclerAdapter(data.getQuizOptions())
         myRecyclerView.adapter = adapter
         myRecyclerView.setHasFixedSize(true)
-        adapter.onQuizClickedListener = { position, name ->
-            val i = Intent(this, TopicOverview::class.java)
+        adapter.onQuizClickedListener = { _, name ->
+            val i = Intent(this, MultiUseActivity::class.java)
             i.putExtra("heading", "$name")
             startActivity(i)
         }

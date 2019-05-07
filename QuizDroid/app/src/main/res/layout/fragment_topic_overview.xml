@@ -1,0 +1,26 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="edu.washington.lmburu.quizdroid.TopicOverview">
+
+    <TextView
+            android:text="@string/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/heading"
+            android:textAlignment="textStart"
+            android:textSize="30sp" android:layout_marginTop="20dp"/>
+
+    <TextView
+            android:text="@string/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/topic_overview" android:layout_marginTop="100dp"
+            android:textSize="24sp"/>
+
+    <Button
+            android:text="@string/btn_begin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/btn_begin" android:layout_marginTop="250dp"/>
+
+</FrameLayout>

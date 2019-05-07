@@ -1,11 +1,10 @@
 package edu.washington.lmburu.quizdroid
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.home.view.*
+import kotlinx.android.synthetic.main.quiz_recycler_adapter.view.*
 
 
 class QuizRecyclerAdapter (var quizList: List<String>): RecyclerView.Adapter<QuizRecyclerAdapter.QuizViewHolder>(){
@@ -13,10 +12,8 @@ class QuizRecyclerAdapter (var quizList: List<String>): RecyclerView.Adapter<Qui
     var onQuizClickedListener: ((position: Int, name: String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewHolderType: Int): QuizViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.home, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.quiz_recycler_adapter, parent, false)
         return QuizViewHolder(itemView)
-
-
     }
 
     override fun getItemCount(): Int {
@@ -30,7 +27,6 @@ class QuizRecyclerAdapter (var quizList: List<String>): RecyclerView.Adapter<Qui
     inner class QuizViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         fun bindView(quizName: String,  position: Int){
             itemView.subject.text = quizName
-
             itemView.setOnClickListener{
                 onQuizClickedListener?.invoke(position, quizName)
             }
