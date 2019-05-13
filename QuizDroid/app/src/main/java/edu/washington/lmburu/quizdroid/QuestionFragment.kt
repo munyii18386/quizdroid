@@ -9,31 +9,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_question.view.*
+import javax.security.auth.Subject.getSubject
 
 private val TAG = "QuestionFragment"
 class QuestionFragment : Fragment(), TopicRepository {
     private var callback: OnSubmitSelectedListener? = null
 
     internal interface OnSubmitSelectedListener{
-        fun onSubmit(subject: String, index:Int, checkedAnswer:String, scoreCount: Int)
+        fun onSubmit()
     }
 
     companion object {
-        private const val SUBJECT  = "subject"
-        private const val INDEX = "index"
-        private const val SCORE_COUNT ="score_count"
-        // new instance of question fragment
-        fun newInstance(subject: String, index: Int, scoreCount: Int): QuestionFragment {
-            val args = Bundle().apply {
-                putString(SUBJECT, subject)
-                putInt(INDEX, index)
-                putInt(SCORE_COUNT, scoreCount)
-            }
-            return QuestionFragment().apply {
-                arguments = args
-            }
+        fun newInstance(): QuestionFragment {
+            return QuestionFragment()
         }
     }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         callback = context as? OnSubmitSelectedListener
@@ -48,15 +39,14 @@ class QuestionFragment : Fragment(), TopicRepository {
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_question, container, false)
-//        val data = QuizClass()
 
         if(getUserCheckedAnswer().equals("")){
             rootView.submit.visibility = View.INVISIBLE
         }
-        arguments?.let {
-            var subject = it.getString(SUBJECT)
-            var index = it.getInt(INDEX)
-            var scoreCount = it.getInt(SCORE_COUNT)
+
+            var subject = getSubject()
+            var index = getIndex()
+
             //generate appropriate view
             rootView.question.text = getQuestion(subject, index)
             rootView.r_btn_a.text = getAnswer(subject, index)[0]
@@ -65,11 +55,13 @@ class QuestionFragment : Fragment(), TopicRepository {
             rootView.r_btn_d.text = getAnswer(subject, index)[3]
             //submit button listener
             rootView.submit.setOnClickListener {
-                callback!!.onSubmit(subject, index, getUserCheckedAnswer(), scoreCount)
+                Log.i(TAG, "$subject, $index ${getUserCheckedAnswer()}")
+//                Log.i(TAG, "instance count is: ${getInstanceCount()}")
+                callback!!.onSubmit()
             }
-        }
+
         // get the value selected by the user
-        rootView.btn_ans.setOnCheckedChangeListener { btn_ans, i ->
+        rootView.btn_ans.setOnCheckedChangeListener { _, i ->
             when(i){
                 rootView.r_btn_a.id -> setUserCheckedAnswer(rootView.r_btn_a.text as String)
                 rootView.r_btn_b.id -> setUserCheckedAnswer(rootView.r_btn_b.text as String)

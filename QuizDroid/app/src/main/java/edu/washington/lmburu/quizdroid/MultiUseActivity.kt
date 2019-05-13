@@ -7,42 +7,49 @@ import android.util.Log
 import android.view.View
 import edu.washington.lmburu.quizdroid.R.*
 
+private val TAG = "MultiUse"
 
-class MultiUseActivity : AppCompatActivity(), TopicRepository, TopicOverviewFragment.OnBeginSelected, QuestionFragment.OnSubmitSelectedListener, AnswerFragment.OnClickListener {
+class MultiUseActivity : AppCompatActivity(),  TopicOverviewFragment.OnBeginSelected{//, QuestionFragment.OnSubmitSelectedListener, AnswerFragment.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.multi_use_activity)
-//        val data = QuizClass()
-//        val extras = intent.extras ?: return
-        val subject = getSubject()
-//        val summary = data.topicOverview(subject)
+        val app = this.application as QuizApp
+        val topic = app.getRepository().getCurrentTopicName()
+        val summary = app.getRepository().topicDesc(topic)
+        Log.i(TAG, "topic: $topic, summary: $summary")
 
-        val topicOverviewFragment = TopicOverviewFragment.newInstance(subject, topicOverview(subject))
+
+//        Log.i(TAG, "Topic instance count is: ${getInstanceCount()}")
+        val topicOverviewFragment = TopicOverviewFragment.newInstance(topic, summary)
         val topicFt = supportFragmentManager.beginTransaction()
         topicFt.replace(id.container,topicOverviewFragment )
         topicFt.addToBackStack(null)
         topicFt.commit()
     }
 
-    override fun onSelected(subject: String, index: Int, scoreCount: Int) {
-        val questionFragment = QuestionFragment.newInstance(subject, index, scoreCount)
+
+    override fun onSelected() {
+//        Log.i(TAG, "Question instance count is: ${getInstanceCount()}")
+        val questionFragment = QuestionFragment.newInstance()
         val questionFt = supportFragmentManager.beginTransaction()
         questionFt.replace(id.container, questionFragment)
         questionFt.addToBackStack(null)
         questionFt.commit()
     }
-
-    override fun onSubmit(subject: String, index: Int, checkedAnswer: String, scoreCount: Int) {
-        val answerFragment = AnswerFragment.newInstance(subject, index, checkedAnswer, scoreCount)
-        val ansFt = supportFragmentManager.beginTransaction()
-        ansFt.replace(id.container, answerFragment)
-        ansFt.addToBackStack(null)
-        ansFt.commit()
-    }
-
-    override fun onFinish() {
-        val i = Intent(this, MainActivity::class.java)
-        startActivity(i)
-    }
+//
+//    override fun onSubmit() {
+////        Log.i(TAG, "Answer instance count is: ${getInstanceCount()}")
+//        val answerFragment = AnswerFragment.newInstance()
+//        val ansFt = supportFragmentManager.beginTransaction()
+//        ansFt.replace(id.container, answerFragment)
+//        ansFt.addToBackStack(null)
+//        ansFt.commit()
+//    }
+//
+//    override fun onFinish() {
+////        Log.i(TAG, "Quiz done instance count is: ${getInstanceCount()}")
+//        val i = Intent(this, MainActivity::class.java)
+//        startActivity(i)
+//    }
 }

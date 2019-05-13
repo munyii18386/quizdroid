@@ -10,30 +10,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_topic_overview.view.*
+import javax.security.auth.Subject.getSubject
 
+private val TAG = "TopicOverviewFragment"
+class TopicOverviewFragment : Fragment() {
 
-class TopicOverviewFragment : Fragment(), TopicRepository {
 
     private var callback: OnBeginSelected? = null
 
     internal interface OnBeginSelected{
-        fun onSelected(subject: String, index: Int, scoreCount: Int)
+        fun onSelected()
     }
 
     companion object{
-        private const val HEADING = "heading"
-        private const val SUMMARY = "summary"
-        //new instance of topic overview fragment
-        fun newInstance(myHeading: String, mySummary: String): TopicOverviewFragment{
+        private const val TOPIC = "Topic"
+        private const val DESC = "summary"
+        fun newInstance(topic:String, summary: String): TopicOverviewFragment{
             val args = Bundle().apply {
-                putString(HEADING, myHeading)
-                putString(SUMMARY, mySummary)
+                putString(TOPIC, topic)
+                putString(DESC, summary)
             }
             return TopicOverviewFragment().apply {
                 arguments = args
             }
+
         }
     }
+
     //attach context
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -49,14 +52,17 @@ class TopicOverviewFragment : Fragment(), TopicRepository {
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_topic_overview, container, false)
-        arguments?.let {
-            rootView.heading.text = it.getString(HEADING) + "Quiz"
-            rootView.topic_overview.text = it.getString(SUMMARY)
-            val subject = it.getString(HEADING)
+
+        arguments?.let{
+            rootView.heading.text = it.getString(TOPIC) + " Quiz"
+            rootView.topic_overview.text = it.getString(DESC)
+
 
             rootView.btn_begin.setOnClickListener {
-                callback!!.onSelected(subject, getIndex(), getTotalTally())
+                //                Log.i(TAG, "subject: $subject, ${getIndex()}, ${getTotalTally()}")
+                callback!!.onSelected()
             }
+
         }
         return rootView
     }
