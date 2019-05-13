@@ -11,23 +11,23 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_question.view.*
 
 private val TAG = "QuestionFragment"
-class QuestionFragment : Fragment() {
+class QuestionFragment : Fragment(), TopicRepository {
     private var callback: OnSubmitSelectedListener? = null
 
     internal interface OnSubmitSelectedListener{
-        fun onSubmit(subject: String, count:String, checkedAnswer:String, scoreCount: String)
+        fun onSubmit(subject: String, index:Int, checkedAnswer:String, scoreCount: Int)
     }
 
     companion object {
         private const val SUBJECT  = "subject"
-        private const val INDEX: String = "index"
-        private const val SCORE_COUNT: String ="score_count"
+        private const val INDEX = "index"
+        private const val SCORE_COUNT ="score_count"
         // new instance of question fragment
-        fun newInstance(subject: String?, index: String?, scoreCount: String?): QuestionFragment {
+        fun newInstance(subject: String, index: Int, scoreCount: Int): QuestionFragment {
             val args = Bundle().apply {
                 putString(SUBJECT, subject)
-                putString(INDEX, index)
-                putString(SCORE_COUNT, scoreCount)
+                putInt(INDEX, index)
+                putInt(SCORE_COUNT, scoreCount)
             }
             return QuestionFragment().apply {
                 arguments = args
@@ -48,33 +48,33 @@ class QuestionFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_question, container, false)
-        val data = QuizClass()
-        var checkedAnswer = ""
-        if(checkedAnswer.equals("")){
+//        val data = QuizClass()
+
+        if(getUserCheckedAnswer().equals("")){
             rootView.submit.visibility = View.INVISIBLE
         }
         arguments?.let {
             var subject = it.getString(SUBJECT)
-            var index = it.getString(INDEX)
-            var scoreCount = it.getString(SCORE_COUNT)
+            var index = it.getInt(INDEX)
+            var scoreCount = it.getInt(SCORE_COUNT)
             //generate appropriate view
-            rootView.question.text = data.getQuestion(subject, index.toInt())
-            rootView.r_btn_a.text = data.getAnswer(subject, index.toInt())[0]
-            rootView.r_btn_b.text = data.getAnswer(subject, index.toInt())[1]
-            rootView.r_btn_c.text = data.getAnswer(subject, index.toInt())[2]
-            rootView.r_btn_d.text = data.getAnswer(subject, index.toInt())[3]
+            rootView.question.text = getQuestion(subject, index)
+            rootView.r_btn_a.text = getAnswer(subject, index)[0]
+            rootView.r_btn_b.text = getAnswer(subject, index)[1]
+            rootView.r_btn_c.text = getAnswer(subject, index)[2]
+            rootView.r_btn_d.text = getAnswer(subject, index)[3]
             //submit button listener
             rootView.submit.setOnClickListener {
-                callback!!.onSubmit(subject, index, checkedAnswer, scoreCount)
+                callback!!.onSubmit(subject, index, getUserCheckedAnswer(), scoreCount)
             }
         }
         // get the value selected by the user
         rootView.btn_ans.setOnCheckedChangeListener { btn_ans, i ->
             when(i){
-                rootView.r_btn_a.id -> checkedAnswer = rootView.r_btn_a.text as String
-                rootView.r_btn_b.id -> checkedAnswer = rootView.r_btn_b.text as String
-                rootView.r_btn_c.id -> checkedAnswer = rootView.r_btn_c.text as String
-                rootView.r_btn_d.id -> checkedAnswer = rootView.r_btn_d.text as String
+                rootView.r_btn_a.id -> setUserCheckedAnswer(rootView.r_btn_a.text as String)
+                rootView.r_btn_b.id -> setUserCheckedAnswer(rootView.r_btn_b.text as String)
+                rootView.r_btn_c.id -> setUserCheckedAnswer(rootView.r_btn_c.text as String)
+                rootView.r_btn_d.id -> setUserCheckedAnswer(rootView.r_btn_d.text as String)
             }
             rootView.submit.visibility = View.VISIBLE
         }

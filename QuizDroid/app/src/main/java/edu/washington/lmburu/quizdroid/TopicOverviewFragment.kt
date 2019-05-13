@@ -12,19 +12,19 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_topic_overview.view.*
 
 
-class TopicOverviewFragment : Fragment() {
+class TopicOverviewFragment : Fragment(), TopicRepository {
 
     private var callback: OnBeginSelected? = null
 
     internal interface OnBeginSelected{
-        fun onSelected(subject: String, index: String, scoreCount: String)
+        fun onSelected(subject: String, index: Int, scoreCount: Int)
     }
 
     companion object{
         private const val HEADING = "heading"
         private const val SUMMARY = "summary"
         //new instance of topic overview fragment
-        fun newInstance(myHeading: String?, mySummary: String?): TopicOverviewFragment{
+        fun newInstance(myHeading: String, mySummary: String): TopicOverviewFragment{
             val args = Bundle().apply {
                 putString(HEADING, myHeading)
                 putString(SUMMARY, mySummary)
@@ -53,10 +53,9 @@ class TopicOverviewFragment : Fragment() {
             rootView.heading.text = it.getString(HEADING) + "Quiz"
             rootView.topic_overview.text = it.getString(SUMMARY)
             val subject = it.getString(HEADING)
-            val index = "1"
-            val scoreCount = "0"
+
             rootView.btn_begin.setOnClickListener {
-                callback!!.onSelected(subject, index, scoreCount)
+                callback!!.onSelected(subject, getIndex(), getTotalTally())
             }
         }
         return rootView

@@ -11,15 +11,13 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_answer.*
 import kotlinx.android.synthetic.main.fragment_answer.view.*
 
-private val TAG = "AnswerFragment"
 
-
-class AnswerFragment : Fragment() {
+class AnswerFragment : Fragment(), TopicRepository {
 
     private var callback: OnClickListener? = null
 
     internal interface OnClickListener{
-        fun onSelected(subject: String, index: String, scoreCount: String)
+        fun onSelected(subject: String, index: Int, scoreCount: Int)
         fun onFinish(){}
     }
     companion object{
@@ -28,12 +26,12 @@ class AnswerFragment : Fragment() {
         private const val CHECKED_ANSWER = "checkedAnswer"
         private const val SCORE_COUNT = "scoreCount"
 
-        fun newInstance(subject: String, index: String, checkedAnswer: String, scoreCount: String): AnswerFragment{
+        fun newInstance(subject: String, index: Int, checkedAnswer: String, scoreCount: Int): AnswerFragment{
             var args = Bundle().apply{
                 putString(SUBJECT, subject)
-                putString(INDEX, index)
+                putInt(INDEX, index)
                 putString(CHECKED_ANSWER, checkedAnswer)
-                putString(SCORE_COUNT, scoreCount)
+                putInt(SCORE_COUNT, scoreCount)
             }
             return AnswerFragment().apply {
                 arguments = args
@@ -52,19 +50,19 @@ class AnswerFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val rootView =inflater.inflate(R.layout.fragment_answer, container, false)
-        val data = QuizClass()
+//        val data = QuizClass()
         arguments?.let {
             val subject = it.getString(SUBJECT)
-            var index = it.getString(INDEX).toInt()
+            var index = it.getInt(INDEX)
             val checkedAnswer = it.getString(CHECKED_ANSWER)
-            var scoreCount = it.getString(SCORE_COUNT).toInt()
-            val correctAnswer = data.correctAnswer(subject, index)
-            val totalQuestions = data.quizSize(subject)
-//            Log.i(TAG, "Fragment values: $subject, $index, $checkedAnswer, $scoreCount,  $checkedAnswer, $totalQuestions")
+            var scoreCount = it.getInt(SCORE_COUNT)
+            val correctAnswer = correctAnswer(subject, index)
+            val totalQuestions = quizSize(subject)
 
             //update user's score count
             if(checkedAnswer.equals(correctAnswer)){
                 scoreCount++
+                setTotalTally(scoreCount)
             }
 
             //if this is the last question, do not show 'next' button
@@ -72,22 +70,22 @@ class AnswerFragment : Fragment() {
                 rootView.next.visibility = View.INVISIBLE
             } else{
                 index++
+                setIndex(index)
             }
 
             //update the answer fragment with corresponding values
-            rootView.user_ans.text= checkedAnswer
-            rootView.correct_ans.text = correctAnswer
-            rootView.score.text = "You currently have $scoreCount out of $totalQuestions correct."
+            rootView.user_ans.text= getUserCheckedAnswer()
+            rootView.correct_ans.text = correctAnswer(subject, index)
+            rootView.score.text = "You currently have ${getTotalTally()} out of $totalQuestions correct."
 
             rootView.next.setOnClickListener {
-                callback!!.onSelected(subject, "$index", "$scoreCount")
+                callback!!.onSelected(subject, index, scoreCount)
             }
         }
 
         rootView.finish.setOnClickListener {
             callback!!.onFinish()
         }
-
         return rootView
     }
 }

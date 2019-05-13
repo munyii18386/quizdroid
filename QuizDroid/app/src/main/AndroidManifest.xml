@@ -3,6 +3,7 @@
           package="edu.washington.lmburu.quizdroid">
 
     <application
+            android:name=".QuizApp"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -11,22 +12,12 @@
             android:theme="@style/AppTheme">
         <activity android:name=".MultiUseActivity">
         </activity>
-        <activity android:name=".Answer">
-        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity
-                android:name=".TopicOverview"
-                android:label="TopicOverview">
-        </activity>
-        <activity
-                android:name=".Question"
-                android:label="Question">
         </activity>
     </application>
 
