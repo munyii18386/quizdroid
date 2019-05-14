@@ -1,37 +1,25 @@
 package edu.washington.lmburu.quizdroid
 
-class Question {
-    private var questionText: String
-    private var correctAns: Int
-    private var answers:  ArrayList<String>
+import kotlin.system.measureTimeMillis
 
-    constructor(questionText: String, answers: ArrayList<String>, correctAns: Int ){
-        this.questionText = questionText
-        this.answers = answers
-        this.correctAns = correctAns
-    }
+class Question(questionText: String, answers: ArrayList<String>, correctAns: Int  ) {
 
-//    fun setCorrectAns(correctAns: Int) {
-//        this.correctAns = correctAns
-//    }
-//
-//    fun setQuestionText(questionText: String) {
-//        this.questionText = questionText
-//    }
-//
-//    fun setAnswers(answers: ArrayList<String>) {
-//        this.answers = answers.add(answers)
-//    }
 
-    fun getQuestion(): String {
-        return questionText
-    }
+    private var text = questionText
+    private var ans = answers
+    private var index = correctAns
 
-    fun getAnswers():  ArrayList<String> {
-        return answers
-    }
 
-    fun getCorrectAns(): String {
-        return answers[correctAns]
-    }
+
+        fun getQuestion(): String {
+            return text
+        }
+
+        fun getAnswers(): ArrayList<String> {
+            return ans
+        }
+
+        fun getCorrectAns(): String {
+            return ans[index]
+        }
 }

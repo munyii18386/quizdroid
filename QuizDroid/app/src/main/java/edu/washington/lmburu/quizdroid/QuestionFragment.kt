@@ -23,18 +23,16 @@ class QuestionFragment : Fragment(), TopicRepository {
     }
 
     internal interface QuestionDataManager{
-        fun questionFragmentData(checkedAns: String, index: Int)
+        fun questionFragmentData(checkedAns: String)
     }
 
     companion object {
         private const val QUESTION = "question"
         private const val ANS = "ans"
-        private const val INDEX = "user answer"
-        fun newInstance(question:String, answers: ArrayList<String>, index:Int): QuestionFragment {
+        fun newInstance(question:String, answers: ArrayList<String>): QuestionFragment {
             val args = Bundle().apply {
                 putString(QUESTION, question)
                 putStringArrayList(ANS, answers)
-                putInt(INDEX, index)
             }
             return QuestionFragment().apply {
                 arguments = args
@@ -53,9 +51,6 @@ class QuestionFragment : Fragment(), TopicRepository {
         if(updatedData == null){
             throw  ClassCastException("$context must implement QuestionDataManager")
         }
-
-
-
     }
 
     override fun onCreateView(
@@ -64,37 +59,24 @@ class QuestionFragment : Fragment(), TopicRepository {
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_question, container, false)
-
-
             arguments?.let {
-
                 var question = it.getString(QUESTION)
                 var answers:ArrayList<String> = it.getStringArrayList(ANS)
                 var checkedAnswer = ""
-                var index = it.getInt(INDEX)
                 if(checkedAnswer.equals("")){
                 rootView.submit.visibility = View.INVISIBLE
             }
-
                 //generate appropriate view
                 rootView.question.text = question
                 rootView.r_btn_a.text = answers[0]
                 rootView.r_btn_b.text = answers[1]
                 rootView.r_btn_c.text = answers[2]
                 rootView.r_btn_d.text = answers[3]
-
                 //submit button listener
                 rootView.submit.setOnClickListener {
-                    //                Log.i(TAG, "$subject, $index ${getUserCheckedAnswer()}")
-//                Log.i(TAG, "instance count is: ${getInstanceCount()}")
-
-                    index++
-                    updatedData?.questionFragmentData(checkedAnswer,index )
-
+                    updatedData?.questionFragmentData(checkedAnswer)
                     callback!!.onSubmit()
-
                 }
-
                 // get the value selected by the user
                 rootView.btn_ans.setOnCheckedChangeListener { _, i ->
                     when (i) {
@@ -104,9 +86,7 @@ class QuestionFragment : Fragment(), TopicRepository {
                         rootView.r_btn_d.id -> checkedAnswer = rootView.r_btn_d.text as String
                     }
                     rootView.submit.visibility = View.VISIBLE
-
                 }
-
             }
         return rootView
     }

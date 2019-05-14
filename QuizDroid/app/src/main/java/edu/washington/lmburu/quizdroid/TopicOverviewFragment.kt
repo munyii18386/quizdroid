@@ -12,9 +12,8 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_topic_overview.view.*
 import javax.security.auth.Subject.getSubject
 
-private val TAG = "TopicOverviewFragment"
+//private val TAG = "TopicOverviewFragment"
 class TopicOverviewFragment : Fragment() {
-
 
     private var callback: OnBeginSelected? = null
 
@@ -51,7 +50,6 @@ class TopicOverviewFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_topic_overview, container, false)
-
         arguments?.let{
             rootView.heading.text = it.getString(TOPIC) + " Quiz"
             rootView.topic_overview.text = it.getString(DESC)

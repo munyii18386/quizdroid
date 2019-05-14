@@ -2,32 +2,23 @@ package edu.washington.lmburu.quizdroid
 
 
 
-class Topic() {
+class Topic(topic:String, description: String, listOfQuestions: ArrayList<Question>) {
+
+    private var subject  = topic
+    private var desc = description
+    private var questions = listOfQuestions
 
 
-
-    private var topic: String? = null
-    private var desc: String? = null
-    private var questions: MutableList<String>? = null
-
-    constructor(title: String, shortDescription: String, questions: MutableList<String>) : this() {
-        this.topic = title
-        this.desc = shortDescription
-        this.questions = questions
-    }
-
-
-
-    fun getQuestions(): MutableList<String> {
-        return questions!!
+    fun getQuestions(): ArrayList<Question> {
+        return questions
     }
 
     fun getDesc(): String {
         return desc!!
     }
 
-
     fun getTopic(): String {
-        return topic!!
+        return subject
     }
+
 }

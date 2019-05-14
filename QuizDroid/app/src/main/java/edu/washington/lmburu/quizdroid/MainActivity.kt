@@ -7,8 +7,6 @@ import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-
-
 private val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +17,6 @@ class MainActivity : AppCompatActivity() {
         val app = this.application as QuizApp
         val repo = app.getRepository()
         val topics= repo.getTopics()
-
 
         val adapter = QuizRecyclerAdapter(topics)
         myRecyclerView.adapter = adapter
