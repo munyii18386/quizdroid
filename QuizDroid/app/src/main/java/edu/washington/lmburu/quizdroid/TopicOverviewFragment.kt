@@ -33,7 +33,6 @@ class TopicOverviewFragment : Fragment() {
             return TopicOverviewFragment().apply {
                 arguments = args
             }
-
         }
     }
 
@@ -57,12 +56,10 @@ class TopicOverviewFragment : Fragment() {
             rootView.heading.text = it.getString(TOPIC) + " Quiz"
             rootView.topic_overview.text = it.getString(DESC)
 
-
             rootView.btn_begin.setOnClickListener {
-                //                Log.i(TAG, "subject: $subject, ${getIndex()}, ${getTotalTally()}")
+//                Log.i(TAG, "subject: $subject, ${getIndex()}, ${getTotalTally()}")
                 callback!!.onSelected()
             }
-
         }
         return rootView
     }

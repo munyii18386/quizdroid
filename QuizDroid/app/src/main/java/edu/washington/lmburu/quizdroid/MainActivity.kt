@@ -17,14 +17,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val app = this.application as QuizApp
-        val topics= app.getRepository().getTopics()
+        val repo = app.getRepository()
+        val topics= repo.getTopics()
 
 
         val adapter = QuizRecyclerAdapter(topics)
         myRecyclerView.adapter = adapter
         myRecyclerView.setHasFixedSize(true)
         adapter.onQuizClickedListener = { _, name ->
-            app.currentTopic(name)
+            repo.updateCurrentTopic(name)
             val i = Intent(this, MultiUseActivity::class.java)
             startActivity(i)
         }

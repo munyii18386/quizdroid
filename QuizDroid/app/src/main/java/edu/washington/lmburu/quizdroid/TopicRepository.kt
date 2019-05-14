@@ -19,6 +19,12 @@ companion object : TopicRepository {
         return instance as TopicRepository
     }
         var currentTopic = ""
+        var checkedAnswer = ""
+        var tally = 0
+        var currentPosition = 0
+        var currentQuestionIndex = 0
+
+
         val quizList = listOf("Math", "Physics", "Marvel Super Heroes")
         val topicList = listOf(
             "This Math quiz contains 5 questions.",
@@ -38,33 +44,32 @@ companion object : TopicRepository {
             "Who is Iron Man?", "Who is stronger Thor or Hulk?", "Can Batman join the team?"
         )
         val mAnswers = arrayListOf(
-            listOf("4", "3", "5", "6"),
-            listOf("4", "8", "5", "6"),
-            listOf("1", "10", "9", "5"),
-            listOf("16", "12", "14", "10"),
-            listOf("20", "22", "23", "25")
+            arrayListOf("4", "3", "5", "6"),
+            arrayListOf("4", "8", "5", "6"),
+            arrayListOf("1", "10", "9", "5"),
+            arrayListOf("16", "12", "14", "10"),
+           arrayListOf("20", "22", "23", "25")
         )
 
 
-        //    val pAnswers = arrayListOf(
-//        listOf("glass", "plastic", "clear", "convex"),
-//        listOf("none", "small", "low", "high"),
-//        listOf("scientist", "magician", "physicist", "teacher")
-//    )
-//    val mshAnswers = arrayListOf(
-//        listOf(
-//            "Tony Stark", "Some dude", "Patrick Star", "Johhny Blaze"
-//        ), listOf("Both", "Neither", "Thor", "Hulk"), listOf("Yes", "No", "Maybe", "Only if Ben Affleck is fired")
-//    )
-        val mshAnswers = arrayOf(
+            val pAnswers = arrayOf(
+        arrayListOf("glass", "plastic", "clear", "convex"),
+        arrayListOf("none", "small", "low", "high"),
+        arrayListOf("scientist", "magician", "physicist", "teacher")
+    )
+    val mshAnswers = arrayListOf(
+        arrayListOf(
             "Tony Stark", "Some dude", "Patrick Star", "Johhny Blaze"
-        )
+        ), arrayListOf("Both", "Neither", "Thor", "Hulk"), arrayListOf("Yes", "No", "Maybe", "Only if Ben Affleck is fired")
+    )
+
         val mathTopic = Topic(quizList[0], topicList[0], mQuestions)
         val physicsTopic = Topic(quizList[1], topicList[1], pQuestions)
         val mshTopics = Topic(quizList[2], topicList[2], mshQuestions)
-        //    val mathQuiz = Question(mQuestions[0], mAnswers[0], 1)
-//    val physicQuiz = Question(pQuestions[0], pAnswers[0], 4)
-        val mshQuiz = Question(mshQuestions[0], mshAnswers, 1)
+
+        val mathQuiz = Question(mQuestions[currentQuestionIndex], mAnswers[currentQuestionIndex], 0)
+        val physicQuiz = Question(pQuestions[currentQuestionIndex], pAnswers[currentQuestionIndex], 3)
+        val mshQuiz = Question(mshQuestions[currentQuestionIndex], mshAnswers[currentQuestionIndex], 0)
 
 }
 
@@ -74,12 +79,18 @@ companion object : TopicRepository {
         return quizList
     }
 
-    fun currentTopic(name: String){
+    fun updateCurrentTopic(name: String){
         currentTopic = name
-
     }
+
     fun getCurrentTopicName(): String{
-        return currentTopic
+        var result = ""
+        when(currentTopic){
+            "Math" -> result = mathTopic.getTopic()
+            "Physics" -> result = physicsTopic.getTopic()
+            "Marvel Super Heroes" ->  result = mshTopics.getTopic()
+        }
+        return  result
     }
 
     fun topicDesc(currentTopic:String):String{
@@ -90,6 +101,81 @@ companion object : TopicRepository {
             "Marvel Super Heroes" -> summary = mshTopics.getDesc()
         }
         return  summary
+    }
+
+    fun getQuestion(name: String): String{
+        var topic = ""
+        when(currentTopic){
+            "Math" -> topic = mathTopic.getQuestions()[currentQuestionIndex]
+            "Physics" -> topic = physicsTopic.getQuestions()[currentQuestionIndex]
+            "Marvel Super Heroes" -> topic = mshTopics.getQuestions()[currentQuestionIndex]
+        }
+        return topic
+    }
+
+    fun getQuestionIndex():Int{
+        return currentQuestionIndex
+    }
+
+    fun updateQuestionIndex(num:Int){
+        currentQuestionIndex = num
+    }
+
+    fun getAns(): ArrayList<String>{
+        var result = arrayListOf("")
+       when(currentTopic){
+           "Math" -> result =  mathQuiz.getAnswers()
+           "Physics" -> result = physicQuiz.getAnswers()
+           "Marvel Super Heroes" -> mshQuiz.getAnswers()
+       }
+        return result
+    }
+
+    fun setUserCheckedAns(ans:String){
+        checkedAnswer = ans
+    }
+
+    fun getUserCheckedAns(): String{
+        return  checkedAnswer
+    }
+
+    fun getCorrectAns(): String{
+        var result = ""
+        when(currentTopic){
+            "Math" -> result = mathQuiz.getCorrectAns()
+            "Physics" -> result = physicQuiz.getCorrectAns()
+            "Marvel Super Heroes" -> result = mshQuiz.getCorrectAns()
+
+        }
+        return result
+
+    }
+
+    fun getQuizSize():Int{
+        var result = 0
+        when(currentTopic){
+            "Math" -> result = mathTopic.getQuestions().size
+            "Physics" -> result = physicsTopic.getQuestions().size
+            "Marvel Super Heroes" -> result = mshTopics.getQuestions().size
+
+        }
+        return result
+    }
+
+    fun getScore(): Int{
+        return tally
+    }
+
+    fun updateScore(number:Int){
+        tally = number
+    }
+
+    fun updatePosition(number: Int){
+        currentPosition = number
+    }
+
+    fun getPosition():Int{
+        return currentPosition
     }
 
 
