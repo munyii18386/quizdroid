@@ -14,8 +14,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val app = this.application as QuizApp
-        val repo = app.getRepository()
+        val repo = QuizApp.instance.getRepository()
         val topics= repo.getTopics()
 
         val adapter = QuizRecyclerAdapter(topics)
