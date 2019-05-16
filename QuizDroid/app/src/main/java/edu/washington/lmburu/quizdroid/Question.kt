@@ -20,6 +20,6 @@ class Question(questionText: String, answers: ArrayList<String>, correctAns: Int
         }
 
         fun getCorrectAns(): String {
-            return ans[index]
+            return ans[index ]
         }
 }

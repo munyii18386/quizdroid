@@ -43,9 +43,12 @@ class QuestionFragment : Fragment(), TopicRepository {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_question, container, false)
         repo = QuizApp.instance.getRepository()
-        val topic = repo.getTopicInfo().getValue(repo.getCurrentTopicName())
-        val question = topic.getQuestions()[repo.getIndex()].getQuestion()
-        val answers = topic.getQuestions()[repo.getIndex()].getAnswers()
+        val topicQuestions = repo.getTopicInfo()
+            .get(getCurrentTopicNow())!!
+            .getQuestions()
+            .get(repo.getIndex())
+        val question = topicQuestions.getQuestion()
+        val answers = topicQuestions.getAnswers()
 
         var checkedAnswer = ""
         if(checkedAnswer.equals("")){

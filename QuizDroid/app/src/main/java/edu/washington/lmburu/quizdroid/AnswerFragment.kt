@@ -46,8 +46,11 @@ class AnswerFragment : Fragment(), TopicRepository {
         repo = QuizApp.instance.getRepository()
 
         var checkedAns = repo.getUserCheckedAns()
-        val topic = repo.getTopicInfo().getValue(repo.getCurrentTopicName())
-        var correctAns  = topic.getQuestions()[repo.getIndex()].getCorrectAns()
+        val topic = repo.getTopicInfo()
+            .get(getCurrentTopicNow())!!
+            .getQuestions()
+            .get(repo.getIndex())
+        var correctAns  = topic.getCorrectAns()
         var tally = repo.getScore()
         val quizSize = repo.getQuizSize()
         var index = repo.getIndex()

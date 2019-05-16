@@ -42,16 +42,15 @@ class TopicOverviewFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_topic_overview, container, false)
         repo = QuizApp.instance.getRepository()
-        var topic = repo.getTopicInfo().getValue(repo.getCurrentTopicName()).getTopic() + " Quiz"
-        var summary = repo.getTopicInfo().getValue(repo.getCurrentTopicName()).getDesc()
+        var topic = repo.getCurrentTopicNow() + " Quiz"
+        var summary = repo.getTopicInfo().getValue(repo.getCurrentTopicNow()).getDesc()
 
         rootView.heading.text = topic
         rootView.topic_overview.text = summary
 
         rootView.btn_begin.setOnClickListener {
-            //                Log.i(TAG, "subject: $subject, ${getIndex()}, ${getTotalTally()}")
+//          Log.i(TAG, "subject: $subject, ${getIndex()}, ${getTotalTally()}")
             callback!!.onSelected()
-
         }
         return rootView
     }
