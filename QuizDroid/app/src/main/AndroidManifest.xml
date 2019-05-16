@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="edu.washington.lmburu.quizdroid">
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
             android:name=".QuizApp"
             android:allowBackup="true"
@@ -10,6 +12,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <meta-data
+                android:name="com.google.android.actions"
+                android:resource="@xml/preferences"/>
         <activity android:name=".MultiUseActivity">
         </activity>
         <activity android:name=".MainActivity">
