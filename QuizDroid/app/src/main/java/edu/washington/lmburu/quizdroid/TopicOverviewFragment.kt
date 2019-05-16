@@ -16,22 +16,13 @@ import javax.security.auth.Subject.getSubject
 class TopicOverviewFragment : Fragment() {
 
     private var callback: OnBeginSelected? = null
-
+    lateinit  private var repo: TopicRepository
     internal interface OnBeginSelected{
         fun onSelected()
     }
-
     companion object{
-        private const val TOPIC = "Topic"
-        private const val DESC = "summary"
-        fun newInstance(topic:String, summary: String): TopicOverviewFragment{
-            val args = Bundle().apply {
-                putString(TOPIC, topic)
-                putString(DESC, summary)
-            }
-            return TopicOverviewFragment().apply {
-                arguments = args
-            }
+        fun newInstance(): TopicOverviewFragment{
+            return TopicOverviewFragment()
         }
     }
 
@@ -50,14 +41,17 @@ class TopicOverviewFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_topic_overview, container, false)
-        arguments?.let{
-            rootView.heading.text = it.getString(TOPIC) + " Quiz"
-            rootView.topic_overview.text = it.getString(DESC)
+        repo = QuizApp.instance.getRepository()
+        var topic = repo.getTopicInfo().getValue(repo.getCurrentTopicName()).getTopic() + " Quiz"
+        var summary = repo.getTopicInfo().getValue(repo.getCurrentTopicName()).getDesc()
 
-            rootView.btn_begin.setOnClickListener {
-//                Log.i(TAG, "subject: $subject, ${getIndex()}, ${getTotalTally()}")
-                callback!!.onSelected()
-            }
+        rootView.heading.text = topic
+        rootView.topic_overview.text = summary
+
+        rootView.btn_begin.setOnClickListener {
+            //                Log.i(TAG, "subject: $subject, ${getIndex()}, ${getTotalTally()}")
+            callback!!.onSelected()
+
         }
         return rootView
     }
