@@ -11,6 +11,8 @@
         Passing score is 5 out of 10 questions.
         Click the button below to Begin
     </string>
+    <string name="action_favorite">"favorite"</string>
+    <string name="action_settings">"settings"</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
