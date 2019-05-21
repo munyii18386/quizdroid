@@ -11,6 +11,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.settings.*
 import org.json.JSONObject
@@ -50,8 +54,16 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.update -> {
-                val toast = Toast.makeText(applicationContext, "refreshing...", Toast.LENGTH_LONG)
-                toast.show()
+                val sharedPreferences = getSharedPreferences(PreferenceSettings.PREF, Context.MODE_PRIVATE)
+                val ALARM = "alarm"
+                val alarm = sharedPreferences.getString(ALARM, "")
+                if(alarm == "scheduled"){
+                    Toast.makeText(this, "cancel existing schedule in order to proceed", Toast.LENGTH_LONG).show()
+                } else{
+                    val fetch = DataFetch()
+                    fetch.setUpVolleyFetching()
+                }
+
             }
         }
         return super.onOptionsItemSelected(item)

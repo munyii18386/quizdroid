@@ -1,5 +1,9 @@
 package edu.washington.lmburu.quizdroid
 import android.util.Log
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
@@ -13,14 +17,30 @@ interface TopicRepository {
 companion object : TopicRepository {
 
     private var instance: TopicRepository? = null
-    lateinit var  DATA: JSONArray
+    lateinit var DATA:JSONArray
     var currentTopic = ""
     var checkedAnswer = ""
     var tally = 0
     var currentIndex = 0
+    val FILE_NAME = "quiz"
+
 
     fun getInstance(): TopicRepository {
-        readFile()
+        // Instantiate the RequestQueue.
+
+
+        val item = DataFetch()
+        val result = item.setUpVolleyFetching()
+
+        val info = QuizApp.instance.openFileInput(FILE_NAME).bufferedReader().use { it.readText() }
+        Log.i(TAG, "$info")
+
+        DATA = JSONArray(info)
+
+//        Log.i(TAG, "data accessed from Repo is: $dataString")
+
+
+//        readFile()
 //        Log.i(TAG, "this is my data: $DATA")
         if (instance == null) {
             instance = TopicRepository
@@ -43,6 +63,7 @@ companion object : TopicRepository {
 
         return instance as TopicRepository
     }
+
 
     fun generateQuestionObj(name:String): ArrayList<Question> {
             var questionObjectList: ArrayList<Question> = ArrayList()
@@ -77,23 +98,27 @@ companion object : TopicRepository {
     }
 }
 
-    fun readFile(){
-        val myString: String? = try {
-//            grab file from assets folder & read it to a String
-            val inputStream = QuizApp.instance.assets.open(FILE_NAME)
-            val size = inputStream.available()
-            val buffer = ByteArray(size)
-            inputStream.read(buffer)
-            inputStream.close()
-            String(buffer, Charsets.UTF_8)
-        }catch (e: IOException) {
-            null
-        }
-        myString?.let {
-            //create json
-            DATA = JSONArray(myString)
-     }
-}
+//    fun readFile() {
+//
+//
+//        val myString: String? = try {
+////            grab file from assets folder & read it to a String
+//            val inputStream = QuizApp.instance.assets.open(FILE_NAME)
+//            val size = inputStream.available()
+//            val buffer = ByteArray(size)
+//            inputStream.read(buffer)
+//            inputStream.close()
+//            String(buffer, Charsets.UTF_8)
+//        } catch (e: IOException) {
+//            null
+//        }
+//        myString?.let {
+//            //create json
+//            DATA = JSONArray(myString)
+//        }
+//
+//
+//}
 
     fun getTopicInfo(): HashMap<String, Topic>{
         Log.i(TAG, "${allTopics.size}")
@@ -149,4 +174,5 @@ companion object : TopicRepository {
     }
 
     fun getUserCheckedAns()= checkedAnswer
+
 }
